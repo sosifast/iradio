@@ -17,25 +17,25 @@ import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
 
 export default function App() {
-  const [stations, setStations] = useState([]);
-  const [currentStation, setCurrentStation] = useState(null);
+  const [stations, setStations] = useState<any[]>([]);
+  const [currentStation, setCurrentStation] = useState<any>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(0.7);
   const [isMuted, setIsMuted] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("Semua");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [favorites, setFavorites] = useState([]);
+  const [favorites, setFavorites] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const audioRef = useRef(null);
-  const hlsRef = useRef(null);
+  const audioRef = useRef<any>(null);
+  const hlsRef = useRef<any>(null);
 
   // Fetch stations from API
   useEffect(() => {
     fetch('https://iptv.streamku.net/radio/stream.json')
       .then(res => res.json())
-      .then(data => {
+      .then((data: any[]) => {
         const colors = [
           "from-amber-400 to-orange-500",
           "from-rose-400 to-red-500",
@@ -45,7 +45,7 @@ export default function App() {
           "from-orange-400 to-amber-600"
         ];
         
-        const mapped = data.map((item, index) => ({
+        const mapped = data.map((item: any, index: number) => ({
           id: item.id,
           name: item.name,
           frequency: item.channel || "Radio",
@@ -64,7 +64,7 @@ export default function App() {
         }
         setIsLoading(false);
       })
-      .catch(err => {
+      .catch((err: any) => {
         console.error("Failed to fetch stations:", err);
         setIsLoading(false);
       });
@@ -124,7 +124,7 @@ export default function App() {
   useEffect(() => {
     if (audioRef.current && currentStation) {
       if (isPlaying) {
-        audioRef.current.play().catch(e => {
+        audioRef.current.play().catch((e: any) => {
           console.error("Error playing audio:", e);
           setIsPlaying(false);
         });
@@ -138,7 +138,7 @@ export default function App() {
     setIsPlaying(!isPlaying);
   };
 
-  const handleStationSelect = (station) => {
+  const handleStationSelect = (station: any) => {
     if (currentStation?.id === station.id) {
       togglePlay();
       return;
@@ -163,7 +163,7 @@ export default function App() {
     handleStationSelect(filteredStations[prevIndex]);
   };
 
-  const toggleFavorite = (id) => {
+  const toggleFavorite = (id: any) => {
     setFavorites(prev => 
       prev.includes(id) ? prev.filter(fav => fav !== id) : [...prev, id]
     );
