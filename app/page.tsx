@@ -15,6 +15,7 @@ import {
 import Hls from 'hls.js';
 import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
+import { AdTop, AdBottom } from './components/AdBanners';
 
 export default function App() {
   const [stations, setStations] = useState<any[]>([]);
@@ -189,20 +190,20 @@ export default function App() {
       <Sidebar 
         isSidebarOpen={isSidebarOpen} 
         setIsSidebarOpen={setIsSidebarOpen} 
-        activeCategory={activeCategory} 
-        setActiveCategory={setActiveCategory} 
       />
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col min-w-0 bg-gradient-to-b from-slate-50 to-white">
+      <main className="flex-1 flex flex-col min-w-0 bg-gradient-to-b from-slate-50 to-white overflow-hidden">
         <Navbar 
           setIsSidebarOpen={setIsSidebarOpen} 
           searchQuery={searchQuery} 
           setSearchQuery={setSearchQuery} 
         />
 
-        {/* Hero / Now Playing Detail Section */}
-        <div className="px-6 md:px-10 py-8">
+        <div className="flex-1 overflow-y-auto custom-scrollbar pb-32">
+          {/* Hero / Now Playing Detail Section */}
+        <div className="px-6 md:px-10 py-8 pb-4">
+          <AdTop />
           <div className={`relative overflow-hidden rounded-3xl p-8 md:p-12 flex flex-col md:flex-row items-center gap-8 bg-gradient-to-br ${currentStation.color} shadow-xl shadow-slate-200`}>
             {/* Visualizer Animation Decor */}
             <div className="absolute top-0 right-0 p-8 opacity-20 text-white">
@@ -279,10 +280,11 @@ export default function App() {
               </div>
             </div>
           </div>
+          <AdBottom />
         </div>
 
         {/* Stations List */}
-        <div className="flex-1 px-6 md:px-10 pb-32 overflow-y-auto custom-scrollbar">
+        <div className="px-6 md:px-10">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-xl font-bold text-slate-800">Stasiun Populer</h3>
             <span className="text-sm font-medium text-slate-500 bg-slate-100 px-3 py-1 rounded-full">{filteredStations.length} stasiun</span>
@@ -333,6 +335,7 @@ export default function App() {
               <p className="text-slate-500 font-medium">Tidak ada stasiun yang cocok dengan pencarian Anda.</p>
             </div>
           )}
+        </div>
         </div>
       </main>
 
